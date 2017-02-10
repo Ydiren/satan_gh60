@@ -1,7 +1,7 @@
 KEYMAP=zeal
 PLATFORM=linux
 
-firmware/${KEYMAP}.hex: keymaps/${KEYMAP}.c tmk tkg firmware
+firmware/${KEYMAP}.hex: keymaps/${KEYMAP}.c tmk/keyboard/gh60/config.h
 	# define GH60_REV_CHN in config.h
 	[ "$(grep GH60_REV_CHN tmk/keyboard/gh60/config.h | wc -l)" -eq "2" ] || echo '#define GH60_REV_CHN' >> tmk/keyboard/gh60/config.h
 	# comment on unused features in Makefile
@@ -36,7 +36,7 @@ tkg/${PLATFORM}/conf/default.ini: tkg/${PLATFORM}/conf
 	echo 'Firmware=gh60-revchn.hex' >> $@
 	echo 'Bootloader=atmel_dfu' >> $@
 
-tkg/${PLATFORM}/conf:
+tkg/${PLATFORM}/conf: tkg/${PLATFORM}
 	mkdir -p $@
 
 clean:
@@ -52,9 +52,13 @@ fullclean: clean
 firmware:
 	mkdir -p firmware
 
-tkg tmk: 
+tmk/keyboard/gh60/config.h: modules
+
+tkg/${PLATFORM}: modules
+
+modules:
 	git submodule init
 	git submodule update
 	cd tmk ; git submodule init ; git submodule update
 
-.PHONY: install clean fullclean
+.PHONY: install clean fullclean modules

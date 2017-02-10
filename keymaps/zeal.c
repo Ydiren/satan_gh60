@@ -10,8 +10,8 @@ const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LCTL,LGUI,LALT,          SPC,                     RALT,FN0, FN0, RCTL),
     /* 1: fn layer */
     KEYMAP_ANSI(
-        ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, DEL, \
-        TRNS,MPRV,MPLY,MNXT,TRNS,TRNS,TRNS,PGUP,HOME,PGDN,TRNS,TRNS,TRNS,TRNS,  \
+        ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, DEL,  \
+        TRNS,MPRV,MPLY,MNXT,TRNS,TRNS,FN4, PGUP,HOME,PGDN,TRNS,TRNS,TRNS,TRNS,  \
         TRNS,HOME,VOLD,VOLU,END, TRNS,LEFT,DOWN,UP,  RGHT,TRNS,TRNS,     TRNS, \
         TRNS,MUTE,TRNS,FN2, FN3, TRNS,END, TRNS,PGUP,PGDN,DEL,           TRNS, \
         TRNS,TRNS,TRNS,          ESC,                     TRNS,TRNS,TRNS,TRNS),
@@ -20,21 +20,21 @@ const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS, \
-        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,   \
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS, \
         TRNS,TRNS,TRNS,          TRNS,                    TRNS,TRNS,TRNS,TRNS),
     /* 3: unused */
     KEYMAP_ANSI(
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS, \
-        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,   \
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS, \
         TRNS,TRNS,TRNS,          TRNS,                    TRNS,TRNS,TRNS,TRNS),
     /* 4: unused */
     KEYMAP_ANSI(
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,     TRNS, \
-        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS,   \
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,          TRNS, \
         TRNS,TRNS,TRNS,          TRNS,                    TRNS,TRNS,TRNS,TRNS),
     /* 5: unused */
     KEYMAP_ANSI(
@@ -64,12 +64,23 @@ const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_KEY(1, KC_ESC), // tap for escape, hold for Fn
     [2] = ACTION_MODS_KEY(MOD_LSFT | MOD_LCTL, KC_C),  // terminal copy
     [3] = ACTION_MODS_KEY(MOD_LSFT | MOD_LCTL, KC_V),  // terminal paste
-    [4] = ACTION_DEFAULT_LAYER_SET(0),  // unused
+    [4] = ACTION_MACRO(0),  // (y)
     [5] = ACTION_DEFAULT_LAYER_SET(0),  // unused
     [6] = ACTION_DEFAULT_LAYER_SET(0),  // unused
     [7] = ACTION_DEFAULT_LAYER_SET(0),  // unused
     [8] = ACTION_DEFAULT_LAYER_SET(0),  // unused
 };
+
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
+    if (!record->event.pressed)
+        return MACRO_NONE;
+    switch(id) {
+    case 0: // (y)
+        return MACRO(
+            I(0), D(LSHIFT), T(9), T(Y), T(0), U(LSHIFT), END
+        );
+    }
+}
 
 #ifdef KEYMAP_IN_EEPROM_ENABLE
 uint16_t keys_count(void) {
