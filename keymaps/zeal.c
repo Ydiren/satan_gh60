@@ -13,8 +13,8 @@ const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, DEL,  \
         TRNS,MPRV,MPLY,MNXT,TRNS,TRNS,FN4, PGUP,HOME,PGDN,TRNS,TRNS,TRNS,TRNS,  \
         TRNS,HOME,VOLD,VOLU,END, TRNS,LEFT,DOWN,UP,  RGHT,TRNS,TRNS,     TRNS, \
-        TRNS,MUTE,TRNS,FN2, FN3, TRNS,END, TRNS,PGUP,PGDN,DEL,           TRNS, \
-        TRNS,TRNS,TRNS,          ESC,                     TRNS,TRNS,TRNS,TRNS),
+        TRNS,MUTE,TRNS,FN2, FN3, FN6, END, TRNS,PGUP,PGDN,DEL,           TRNS, \
+        TRNS,TRNS,TRNS,          FN5,                     TRNS,TRNS,TRNS,TRNS),
     /* 2: unused */
     KEYMAP_ANSI(
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, \
@@ -65,8 +65,8 @@ const uint16_t PROGMEM fn_actions[] = {
     [2] = ACTION_MODS_KEY(MOD_LSFT | MOD_LCTL, KC_C),  // terminal copy
     [3] = ACTION_MODS_KEY(MOD_LSFT | MOD_LCTL, KC_V),  // terminal paste
     [4] = ACTION_MACRO(0),  // (y)
-    [5] = ACTION_DEFAULT_LAYER_SET(0),  // unused
-    [6] = ACTION_DEFAULT_LAYER_SET(0),  // unused
+    [5] = ACTION_MODS_KEY(MOD_LCTL, KC_SPC),  // ^space (for tmux)
+    [6] = ACTION_MODS_KEY(MOD_LCTL, KC_B),  // ^b (for tmux)
     [7] = ACTION_DEFAULT_LAYER_SET(0),  // unused
     [8] = ACTION_DEFAULT_LAYER_SET(0),  // unused
 };
