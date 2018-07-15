@@ -44,6 +44,7 @@ clean:
 	rm -f tmk/keyboard/gh60/keymap_custom.c
 	rm -f tkg/common/firmware/gh60-revchn.hex
 	[ -d tmk/keyboard/gh60 ] && make -C tmk/keyboard/gh60 clean
+	mkdir -p firmware
 
 fullclean: clean
 	cd tmk ; git checkout -- .
